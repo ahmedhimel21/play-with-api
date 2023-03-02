@@ -1,3 +1,4 @@
+// load ai data
 const loadAiData = async() =>{
   const URL = 'https://openapi.programming-hero.com/api/ai/tools';
   const res = await fetch(URL);
@@ -5,13 +6,13 @@ const loadAiData = async() =>{
   const dataArrays = data.data.tools
   displayAiData(dataArrays)
 }
-
+// display ai data
 const displayAiData = aiData =>{
 // console.log(aiData)
  const cardContainer = document.getElementById('card-container');
  aiData = aiData.slice(0,6);
   aiData.forEach(singleAiData => {
-    // console.log(singleAiData)
+    // console.log(singleAiData.id)
      const cardDiv = document.createElement('div');
      cardDiv.classList.add('max-w-sm');
      cardDiv.classList.add('bg-white');
@@ -47,21 +48,30 @@ const displayAiData = aiData =>{
              <p>${singleAiData.published_in}</p>
            </div>
            <div>
-             <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-rose-400 rounded-lg hover:bg-rose-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+             <a onclick="loadDataDetails('${singleAiData.id}')" href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-rose-400 rounded-lg hover:bg-rose-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                Read more
                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
            </a>
            </div>
          </div>
      </div>
+
      `;
      cardContainer.appendChild(cardDiv);
+    //  const seeMoreBtnContainer = document.getElementById('see-more-btn-container');
+    //  const btnDiv = document.createElement('div');
+    //  btnDiv.innerHTML =`
+    //  <button  id="btn-see-more" type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">See More</button>
+    //  `;
+    //  seeMoreBtnContainer.appendChild(btnDiv)
+
 
   });
 
 }
 loadAiData()
 
+// load all ai data
 document.getElementById('btn-see-more').addEventListener('click',function(){
   const loadAllAiData = async() =>{
     const URL = 'https://openapi.programming-hero.com/api/ai/tools';
@@ -70,6 +80,7 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
     const dataArrays = data.data.tools
     displayAllAiData(dataArrays)
   }
+  // display ai all data
   const displayAllAiData = aiData =>{
     // console.log(aiData)
      const cardContainer = document.getElementById('card-container');
@@ -110,7 +121,7 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
                  <p>${singleAiData.published_in}</p>
                </div>
                <div>
-                 <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-rose-400 rounded-lg hover:bg-rose-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                 <a onclick="loadDataDetails('${singleAiData.id}')"  href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-rose-400 rounded-lg hover:bg-rose-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                    Read more
                    <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                </a>
@@ -126,3 +137,15 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
   
   loadAllAiData()
 })
+
+const loadDataDetails = async(id) => {
+  const URL =`https://openapi.programming-hero.com/api/ai/tool/${id}`
+  const res = await fetch(URL);
+  const data = await res.json();
+  console.log(data.data)
+  // displayDetails(data.data);
+}
+// const displayDetails = details => {
+//   console.log(details)
+// }
+// loadDataDetails();
