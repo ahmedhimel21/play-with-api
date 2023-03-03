@@ -8,7 +8,7 @@ const loadAiData = async() =>{
 }
 // display ai data
 const displayAiData = aiData =>{
-// console.log(aiData)
+console.log(aiData)
  const cardContainer = document.getElementById('card-container');
  if(aiData.length>6){
   aiData = aiData.slice(0,6);
@@ -148,5 +148,65 @@ const loadDataDetails = async(id) => {
 }
 const displayDetails = details => {
   console.log(details)
+  const feature =[]
+  const features = details.features;
+  for(const x in features){
+    feature.push(features[x].feature_name)
+  }
+  const modalDetailsContainer = document.getElementById('modal-details-container');
+  modalDetailsContainer.innerHTML = `
+  <div class="card col w-50" style="width: 18rem;">
+  <h3 class="mt-3 fs-6 fw-semibold">
+    ${details.description}
+  </h3>
+  <div class="d-flex justify-content-evenly mt-5 fs-6 fw-semibold">
+    <p class="border shadow-lg rounded-2 text-success-emphasis">
+      ${details.pricing[0].price ? details.pricing[0].price : 'Price Not Found'}
+      <br>
+      ${details.pricing[0].plan ?details.pricing[0].plan : 'Price Not Found'}
+    </p>
+    <p class="border shadow-lg rounded-2 text-warning-emphasis">
+    ${details.pricing[1].price ? details.pricing[1].price : 'Price Not Found'}
+      <br>
+      ${details.pricing[1].plan ? details.pricing[1].plan : 'Price Not Found'}
+    </p>
+    <p class="border shadow-lg rounded-2 text-danger-emphasis">
+      ${details.pricing[2].plan ? details.pricing[2].plan : 'Price Not Found'}
+      <br>
+      ${details.pricing[2].price ? details.pricing[2].price : 'Price Not Found'}
+      </div>
+      <!--  -->
+      <div class="d-flex justify-content-between mt-5">
+        <div>
+          <h3 class="fs-4 fw-semibold">
+          Features
+          </h3>
+         <p>${feature ? feature.map(x => x).join(''): 'Not found'}</p>
+        </div>
+        <div>
+          <h3 class="fs-4 fw-semibold">Integrations</h3>
+          <a href="">${details.integrations[0] ? details.integrations[0] : 'Not Found'}   
+           </a>
+          <br>
+          <a href="">${details.integrations[1] ? details.integrations[1]: 'Not Found'}</a>
+          <br>
+          <a href="">${details.integrations[2] ? details.integrations[2]: 'Not Found'}</a>
+        </div>
+      </div>
+</div>
+<div class="card col w-45" style="width: 18rem;">
+          <img src="${details.image_link[0] ? details.image_link[0] : 
+             'https://picsum.photos/200/300'}" class="img-fluid mt-2" alt="...">
+          <div class="card-body">
+            <h3 class=" d-flex justify-content-center fs-6 fw-semibold">
+    ${details.input_output_examples[0].input ? details.input_output_examples[0].input : 
+    'Not found'}
+            </h3>
+            <p class="mt-2 m-3">
+            ${details.input_output_examples[0].output ? details.input_output_examples[0].output : 'Not found'}
+            </p>
+          </div>
+        </div>
+  `
 }
 // loadDataDetails();
