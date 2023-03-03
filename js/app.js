@@ -8,7 +8,6 @@ const loadAiData = async() =>{
 }
 // display ai data
 const displayAiData = aiData =>{
-console.log(aiData)
  const cardContainer = document.getElementById('card-container');
  if(aiData.length>6){
   aiData = aiData.slice(0,6);
@@ -50,7 +49,7 @@ console.log(aiData)
          <div class="flex justify-between items-center mt-5">
            <div>
              <h4 class="font-bold">${singleAiData.name}</h4>
-             <p>${singleAiData.published_in}</p>
+             <p><i class="fa-solid fa-calendar-days"></i> ${singleAiData.published_in}</p>
            </div>
            <div>
              <a  onclick="loadDataDetails('${singleAiData.id}')" href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-rose-400 rounded-lg hover:bg-rose-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-bs-toggle="modal" data-bs-target="#exampleModal"">
@@ -149,7 +148,7 @@ const loadDataDetails = async(id) => {
   displayDetails(data.data);
 }
 const displayDetails = details => {
-  console.log(details.accuracy.score)
+  console.log(details)
   const feature =[]
   const features = details.features;
   for(const singleFeature in features){
@@ -163,19 +162,19 @@ const displayDetails = details => {
   </h3>
   <div class="d-flex justify-content-evenly mt-5 fs-6 fw-semibold">
     <p class="border shadow-lg rounded-2 text-success-emphasis">
-      ${details.pricing[0].price ? details.pricing[0].price : 'Free of'}
+      ${details.pricing ? details.pricing[0].price : 'Free of cost'}
       <br>
-      ${details.pricing[0].plan ?details.pricing[0].plan : 'Cost/Basic'}
+      ${details.pricing ? details.pricing[0].plan : ''}
     </p>
     <p class="border shadow-lg rounded-2 text-warning-emphasis">
-    ${details.pricing[1].price ? details.pricing[1].price : 'Free Of '}
+    ${details.pricing ? details.pricing[1].price : 'Free Of cost'}
       <br>
-      ${details.pricing[1].plan ? details.pricing[1].plan : 'Cost/Pro'}
+      ${details.pricing ? details.pricing[1].plan : ''}
     </p>
     <p class="border shadow-lg rounded-2 text-danger-emphasis">
-      ${details.pricing[2].plan ? details.pricing[2].plan : 'Free of Cost /'}
+      ${details.pricing ? details.pricing[2].plan : 'Free of Cost '}
       <br>
-      ${details.pricing[2].price ? details.pricing[2].price : 'Enterprise'}
+      ${details.pricing ? details.pricing[2].price.slice(0,10) : 'Free of Cost'}
       </div>
       <!--  -->
       <div class="row mt-5">
@@ -230,3 +229,24 @@ const toggleSpinner = isLoading =>{
   }
 }
 toggleSpinner(true);
+
+// sort by date
+// const dataLoad = async() =>{
+//   const URL = 'https://openapi.programming-hero.com/api/ai/tools';
+//   const res = await fetch(URL);
+//   const data = await res.json();
+//   const dataArrays = data
+//   return dataArrays
+// }
+// const r = dataLoad();
+// customSort = (a,b) =>{
+//   const dateA = new Date(a.dob);
+//   const dateB = new Date(b.dob);
+//   if(dateA>dateB){
+//     return 1;
+//   }
+//   else if(dateA<dateB){
+//     return -1;
+//   }
+// }
+// console.log(r.sort(customSort));
