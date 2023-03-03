@@ -10,7 +10,6 @@ const loadAiData = async() =>{
 const displayAiData = aiData =>{
 console.log(aiData)
  const cardContainer = document.getElementById('card-container');
- cardContainer.innerHTML ='';
  if(aiData.length>6){
   aiData = aiData.slice(0,6);
   const showAll = document.getElementById('see-more-btn-container');
@@ -19,7 +18,6 @@ console.log(aiData)
  
  
   aiData.forEach(singleAiData => {
-    // console.log(singleAiData.id)
      const cardDiv = document.createElement('div');
      cardDiv.classList.add('max-w-sm');
      cardDiv.classList.add('bg-white');
@@ -82,7 +80,6 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
   }
   // display ai all data
   const displayAllAiData = aiData =>{
-    // console.log(aiData)
      const cardContainer = document.getElementById('card-container');
      if(aiData.length>=6){
       aiData = aiData.slice(6,12);
@@ -107,7 +104,8 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
          </a>
          <div class="p-5">
              <a href="#">
-                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Features</h5>
+                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 
+                  dark:text-white">Features</h5>
              </a>
              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                <a> 1. ${singleAiData.features[0]}</a>
