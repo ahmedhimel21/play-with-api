@@ -10,11 +10,13 @@ const loadAiData = async() =>{
 const displayAiData = aiData =>{
 console.log(aiData)
  const cardContainer = document.getElementById('card-container');
+ cardContainer.innerHTML ='';
  if(aiData.length>6){
   aiData = aiData.slice(0,6);
   const showAll = document.getElementById('see-more-btn-container');
   showAll.classList.remove('hidden');
  }
+ 
  
   aiData.forEach(singleAiData => {
     // console.log(singleAiData.id)
@@ -64,6 +66,7 @@ console.log(aiData)
      `;
      cardContainer.appendChild(cardDiv);
   });
+  toggleSpinner(false);
 
 }
 loadAiData()
@@ -139,6 +142,7 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
   loadAllAiData()
 })
 
+// 
 const loadDataDetails = async(id) => {
   const URL =`https://openapi.programming-hero.com/api/ai/tool/${id}`
   const res = await fetch(URL);
@@ -147,11 +151,11 @@ const loadDataDetails = async(id) => {
   displayDetails(data.data);
 }
 const displayDetails = details => {
-  console.log(details)
+  console.log(details.accuracy.score)
   const feature =[]
   const features = details.features;
-  for(const x in features){
-    feature.push(features[x].feature_name)
+  for(const singleFeature in features){
+    feature.push(features[singleFeature].feature_name)
   }
   const modalDetailsContainer = document.getElementById('modal-details-container');
   modalDetailsContainer.innerHTML = `
@@ -161,52 +165,70 @@ const displayDetails = details => {
   </h3>
   <div class="d-flex justify-content-evenly mt-5 fs-6 fw-semibold">
     <p class="border shadow-lg rounded-2 text-success-emphasis">
-      ${details.pricing[0].price ? details.pricing[0].price : 'Price Not Found'}
+      ${details.pricing[0].price ? details.pricing[0].price : 'Free of'}
       <br>
-      ${details.pricing[0].plan ?details.pricing[0].plan : 'Price Not Found'}
+      ${details.pricing[0].plan ?details.pricing[0].plan : 'Cost/Basic'}
     </p>
     <p class="border shadow-lg rounded-2 text-warning-emphasis">
-    ${details.pricing[1].price ? details.pricing[1].price : 'Price Not Found'}
+    ${details.pricing[1].price ? details.pricing[1].price : 'Free Of '}
       <br>
-      ${details.pricing[1].plan ? details.pricing[1].plan : 'Price Not Found'}
+      ${details.pricing[1].plan ? details.pricing[1].plan : 'Cost/Pro'}
     </p>
     <p class="border shadow-lg rounded-2 text-danger-emphasis">
-      ${details.pricing[2].plan ? details.pricing[2].plan : 'Price Not Found'}
+      ${details.pricing[2].plan ? details.pricing[2].plan : 'Free of Cost /'}
       <br>
-      ${details.pricing[2].price ? details.pricing[2].price : 'Price Not Found'}
+      ${details.pricing[2].price ? details.pricing[2].price : 'Enterprise'}
       </div>
       <!--  -->
-      <div class="d-flex justify-content-between mt-5">
-        <div>
+      <div class="row mt-5">
+        <div class = "col w-100-sm">
           <h3 class="fs-4 fw-semibold">
           Features
           </h3>
-         <p>${feature ? feature.map(x => x).join(''): 'Not found'}</p>
+    <p>${feature ? feature.map(singleFeature => singleFeature).join(''): 'No data Found'} 
+    </p>
         </div>
-        <div>
+        <div class ="col w-100-sm">
           <h3 class="fs-4 fw-semibold">Integrations</h3>
-          <a href="">${details.integrations[0] ? details.integrations[0] : 'Not Found'}   
-           </a>
-          <br>
-          <a href="">${details.integrations[1] ? details.integrations[1]: 'Not Found'}</a>
-          <br>
-          <a href="">${details.integrations[2] ? details.integrations[2]: 'Not Found'}</a>
+            <ul>
+      <li>${details.integrations[0] ? details.integrations[0] : 'No data Found'}   
+            </li>
+           <br>
+        <li>${details.integrations[1] ? details.integrations[1]: 'No data Found'} 
+            </li>
+           <br>
+          <li>${details.integrations[2] ? details.integrations[2]: 'No data Found'} 
+            </li>
+            </ul>
         </div>
       </div>
 </div>
 <div class="card col w-45" style="width: 18rem;">
           <img src="${details.image_link[0] ? details.image_link[0] : 
-             'https://picsum.photos/200/300'}" class="img-fluid mt-2" alt="...">
+             'https://picsum.photos/200/300'}" class="img-fluid mt-5" alt="...">
+             <button type="button" class="btn btn-danger position-absolute top-0 end-20" style="background-color:#EB5757 ; padding: 10px; opacity:1;">${details.accuracy.score ? details.accuracy.score : 0.1} % accuracy
+             </button>
           <div class="card-body">
             <h3 class=" d-flex justify-content-center fs-6 fw-semibold">
     ${details.input_output_examples[0].input ? details.input_output_examples[0].input : 
     'Not found'}
             </h3>
             <p class="mt-2 m-3">
-            ${details.input_output_examples[0].output ? details.input_output_examples[0].output : 'Not found'}
+            ${details.input_output_examples[0].output ? details.input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}
             </p>
           </div>
         </div>
   `
 }
-// loadDataDetails();
+// loadDataDetails(id=12);
+// toggle spinner
+const toggleSpinner = isLoading =>{
+  const loaderSection = document.getElementById('loader');
+  if(isLoading){
+    loaderSection.classList.remove('hidden')
+  }
+  else{
+    loaderSection.classList.add('hidden');
+  }
+}
+toggleSpinner(true);
