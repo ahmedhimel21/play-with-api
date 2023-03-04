@@ -69,6 +69,18 @@ const displayAiData = aiData =>{
 }
 loadAiData()
 
+// sort by date
+const sortByDate = () =>{
+  const URL = `https://openapi.programming-hero.com/api/ai/tools`
+  fetch(URL).then(res =>res.json()).then(data =>{
+    let aiData = data.data.tools;
+    let aiDataSortByDate = aiData.slice(0,6);
+    console.log(aiDataSortByDate)
+    aiDataSortByDate.sort((a,b) => new Date(b.published_in) - new Date(a.published_in));
+    displayAiData(aiDataSortByDate)
+  })
+}
+
 // load all ai data
 document.getElementById('btn-see-more').addEventListener('click',function(){
   const loadAllAiData = async() =>{
@@ -224,13 +236,5 @@ const toggleSpinner = isLoading =>{
 }
 toggleSpinner(true);
 
-// sort by date
-const sortByDate = () =>{
-  const URL = `https://openapi.programming-hero.com/api/ai/tools`
-  fetch(URL).then(res =>res.json()).then(data =>{
-    let aiDataBySort = data.data.tools;
-    aiDataBySort.sort((a,b) => new Date(b.published_in) - new Date(a.published_in));
-    displayAiData(aiDataBySort)
-  })
-}
+
 
