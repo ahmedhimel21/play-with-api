@@ -9,6 +9,7 @@ const loadAiData = async() =>{
 // display ai data
 const displayAiData = aiData =>{
  const cardContainer = document.getElementById('card-container');
+ cardContainer.innerHTML ='';
  if(aiData.length>6){
   aiData = aiData.slice(0,6);
   const showAll = document.getElementById('see-more-btn-container');
@@ -144,18 +145,17 @@ const loadDataDetails = async(id) => {
   const URL =`https://openapi.programming-hero.com/api/ai/tool/${id}`
   const res = await fetch(URL);
   const data = await res.json();
-  // console.log(data.data)
   displayDetails(data.data);
 }
 const displayDetails = details => {
-  const feature =[]
+  const feature =[];
   const features = details.features;
   for(const singleFeature in features){
     feature.push(features[singleFeature].feature_name)
   }
   const modalDetailsContainer = document.getElementById('modal-details-container');
   modalDetailsContainer.innerHTML = `
-  <div class="card col w-50" style="width: 18rem;">
+  <div class="card col w-50 " style="width: 18rem;">
   <h3 class="mt-3 fs-6 fw-semibold">
     ${details.description}
   </h3>
@@ -171,38 +171,31 @@ const displayDetails = details => {
       ${details.pricing ? details.pricing[1].plan : ''}
     </p>
     <p class="border shadow-lg rounded-2 text-danger-emphasis">
-      ${details.pricing ? details.pricing[2].plan : 'Free of Cost '}
+      ${details.pricing ? details.pricing[2].plan : ''}
       <br>
       ${details.pricing ? details.pricing[2].price.slice(0,10) : 'Free of Cost'}
       </div>
-      <!--  -->
+
       <div class="row mt-5">
         <div class = "col w-100-sm">
           <h3 class="fs-4 fw-semibold">
           Features
           </h3>
-    <p>${feature ? feature.map(singleFeature => singleFeature).join(''): 'No data Found'} 
+    <p>${feature ? feature.map(singleFeature => '<li>' + singleFeature+ '</li>').join(''): 'No data Found'} 
     </p>
         </div>
         <div class ="col w-100-sm">
           <h3 class="fs-4 fw-semibold">Integrations</h3>
-            <ul>
-      <li>${details.integrations ? details.integrations[0] : 'No data Found'}   
-            </li>
-           <br>
-        <li>${details.integrations  ? details.integrations[1]: 'No data Found'} 
-            </li>
-           <br>
-          <li>${details.integrations ? details.integrations[2]: 'No data Found'} 
-            </li>
-            </ul>
+  <p>
+  ${details.integrations ? details.integrations.map(singleIntegration => '<li>' + singleIntegration+ '</li>').join(''): 'No data Found'}
+  </p>
         </div>
       </div>
 </div>
 <div class="card col w-45" style="width: 18rem;">
-          <img src="${details.image_link[0] ? details.image_link[0] : 
+          <img src="${details.image_link ? details.image_link[0] : 
              'https://picsum.photos/200/300'}" class="img-fluid mt-5" alt="...">
-             <button type="button" class="btn btn-danger position-absolute top-0 end-20" style="background-color:#EB5757 ; padding: 10px; opacity:1;">${details.accuracy.score ? details.accuracy.score : 0.1} % accuracy
+             <button id="btn-accuracy" type="button" class="btn btn-danger position-absolute top-0 end-20" style="background-color:#EB5757 ; padding: 10px; opacity:1;">${details.accuracy.score ? details.accuracy.score  : 'Initial stage'} % accuracy
              </button>
           <div class="card-body">
             <h3 class=" d-flex justify-content-center fs-6 fw-semibold">
@@ -215,9 +208,10 @@ const displayDetails = details => {
             </p>
           </div>
         </div>
-  `
+  `;
+    modalDetailsContainer.innerContent = '';
 }
-// loadDataDetails(id=12);
+
 // toggle spinner
 const toggleSpinner = isLoading =>{
   const loaderSection = document.getElementById('loader');
@@ -229,4 +223,14 @@ const toggleSpinner = isLoading =>{
   }
 }
 toggleSpinner(true);
+
+// sort by date
+const sortByDate = () =>{
+  const URL = `https://openapi.programming-hero.com/api/ai/tools`
+  fetch(URL).then(res =>res.json()).then(data =>{
+    let aiDataBySort = data.data.tools;
+    aiDataBySort.sort((a,b) => new Date(b.published_in) - new Date(a.published_in));
+    displayAiData(aiDataBySort)
+  })
+}
 
