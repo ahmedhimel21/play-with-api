@@ -152,7 +152,7 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
   loadAllAiData()
 })
 
-// 
+// load ai details
 const loadDataDetails = async(id) => {
   const URL =`https://openapi.programming-hero.com/api/ai/tool/${id}`
   const res = await fetch(URL);
@@ -167,29 +167,29 @@ const displayDetails = details => {
   }
   const modalDetailsContainer = document.getElementById('modal-details-container');
   modalDetailsContainer.innerHTML = `
-  <div class="card col w-50 " style="width: 18rem;">
+  <div class="card col w-50 container-sm" style="width: 18rem;">
   <h3 class="mt-3 fs-6 fw-semibold">
     ${details.description}
   </h3>
-  <div class="d-flex justify-content-evenly mt-5 fs-6 fw-semibold">
-    <p class="border shadow-lg rounded-2 text-success-emphasis">
+  <div class="row row-cols-1 row-cols-xl- mt-5 fs-6 fw-semibold">
+    <p class="border col shadow-lg rounded-2 text-success-emphasis">
       ${details.pricing ? details.pricing[0].price : 'Free of cost'}
       <br>
       ${details.pricing ? details.pricing[0].plan : ''}
     </p>
-    <p class="border shadow-lg rounded-2 text-warning-emphasis">
+    <p class="border col shadow-lg rounded-2 text-warning-emphasis">
     ${details.pricing ? details.pricing[1].price : 'Free Of cost'}
       <br>
       ${details.pricing ? details.pricing[1].plan : ''}
     </p>
-    <p class="border shadow-lg rounded-2 text-danger-emphasis">
+    <p class="border col shadow-lg rounded-2 text-danger-emphasis">
       ${details.pricing ? details.pricing[2].plan : ''}
       <br>
       ${details.pricing ? details.pricing[2].price.slice(0,10) : 'Free of Cost'}
       </div>
 
       <div class="row mt-5">
-        <div class = "col w-100-sm">
+        <div class = "col container-sm">
           <h3 class="fs-4 fw-semibold">
           Features
           </h3>
@@ -204,7 +204,7 @@ const displayDetails = details => {
         </div>
       </div>
 </div>
-<div class="card col w-45" style="width: 18rem;">
+<div class="card col w-45 container-sm" style="width: 18rem;">
           <img src="${details.image_link ? details.image_link[0] : 
              'https://picsum.photos/200/300'}" class="img-fluid mt-5" alt="...">
              <button id="btn-accuracy" type="button" class="btn btn-danger position-absolute top-0 end-20" style="background-color:#EB5757 ; padding: 10px; opacity:1;">${details.accuracy.score ? details.accuracy.score  : 'Initial stage'} % accuracy
