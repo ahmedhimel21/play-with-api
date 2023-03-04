@@ -148,7 +148,6 @@ const loadDataDetails = async(id) => {
   displayDetails(data.data);
 }
 const displayDetails = details => {
-  console.log(details)
   const feature =[]
   const features = details.features;
   for(const singleFeature in features){
@@ -188,13 +187,13 @@ const displayDetails = details => {
         <div class ="col w-100-sm">
           <h3 class="fs-4 fw-semibold">Integrations</h3>
             <ul>
-      <li>${details.integrations[0] ? details.integrations[0] : 'No data Found'}   
+      <li>${details.integrations ? details.integrations[0] : 'No data Found'}   
             </li>
            <br>
-        <li>${details.integrations[1] ? details.integrations[1]: 'No data Found'} 
+        <li>${details.integrations  ? details.integrations[1]: 'No data Found'} 
             </li>
            <br>
-          <li>${details.integrations[2] ? details.integrations[2]: 'No data Found'} 
+          <li>${details.integrations ? details.integrations[2]: 'No data Found'} 
             </li>
             </ul>
         </div>
@@ -207,11 +206,12 @@ const displayDetails = details => {
              </button>
           <div class="card-body">
             <h3 class=" d-flex justify-content-center fs-6 fw-semibold">
-    ${details.input_output_examples[0].input ? details.input_output_examples[0].input : 
+    ${details.input_output_examples ? details.input_output_examples[0].input : 
     'Not found'}
             </h3>
             <p class="mt-2 m-3">
-            ${details.input_output_examples[0].output ? details.input_output_examples[0].output : 'No! Not Yet! Take a break!!!'}
+            ${details.input_output_examples ? details.input_output_examples[0].output : 
+            'No! Not Yet! Take a break!!!'}
             </p>
           </div>
         </div>
@@ -230,23 +230,3 @@ const toggleSpinner = isLoading =>{
 }
 toggleSpinner(true);
 
-// sort by date
-// const dataLoad = async() =>{
-//   const URL = 'https://openapi.programming-hero.com/api/ai/tools';
-//   const res = await fetch(URL);
-//   const data = await res.json();
-//   const dataArrays = data
-//   return dataArrays
-// }
-// const r = dataLoad();
-// customSort = (a,b) =>{
-//   const dateA = new Date(a.dob);
-//   const dateB = new Date(b.dob);
-//   if(dateA>dateB){
-//     return 1;
-//   }
-//   else if(dateA<dateB){
-//     return -1;
-//   }
-// }
-// console.log(r.sort(customSort));
